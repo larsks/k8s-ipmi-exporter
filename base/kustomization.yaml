@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ipmi-exporter
+commonLabels:
+  app: ipmi-exporter
+
+resources:
+  - certificate.yaml
+  - daemonset.yaml
+  - namespace.yaml
+  - secret.yaml
+  - serviceaccount.yaml
+  - servicemonitor.yaml
+  - service.yaml
+  - internal-ca
+  - rbac
+
+configurations:
+  - transformers/commonLabels.yaml

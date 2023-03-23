@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ipmi-exporter
+spec:
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: node-exporter
+    spec:
+      serviceAccountName: ipmi-exporter
+      volumes:
+        - name: ipmi-exporter-cert
+          secret:
+            secretName: ipmi-exporter-cert
+      containers:
+
+        - name: ipmi-exporter
+          image: docker.io/prometheuscommunity/ipmi-exporter:v1.6.1
+          imagePullPolicy: Always
+          args:
+            - --web.listen-address=127.0.0.1:9290
+          securityContext:
+            privileged: true
+            runAsUser: 0
+
+        - name: kube-rbac-proxy
+          image: quay.io/brancz/kube-rbac-proxy:v0.14.0
+          ports:
+            - name: https
+              protocol: TCP
+              containerPort: 9292
+          args:
+            - --secure-listen-address=0.0.0.0:9292
+            - --upstream=http://127.0.0.1:9290
+            - --tls-cert-file=/cert/tls.crt
+            - --tls-private-key-file=/cert/tls.key
+          volumeMounts:
+            - name: ipmi-exporter-cert
+              mountPath: /cert

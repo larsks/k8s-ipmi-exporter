@@ -1,0 +1,9 @@
+# ServiceMonitor is a CRD, so Kustomize doesn't know about it by default.
+# This configuration tells Kustomize where to place labels defined with
+# the `commonLabels` setting in `kustomization.yaml`.
+commonLabels:
+- path: spec/selector/matchLabels
+  create: true
+  group: monitoring.coreos.com
+  version: v1
+  kind: ServiceMonitor

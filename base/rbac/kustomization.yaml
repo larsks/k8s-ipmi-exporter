@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ipmi-exporter-allow-auth-clusterrole.yaml
+- ipmi-exporter-allow-auth-clusterrolebinding.yaml
+- prometheus-k8s-rolebinding.yaml
+- prometheus-k8s-role.yaml
+- ipmi-metrics-reader-clusterrole.yaml
+- ipmi-metrics-reader-rolebinding.yaml
+- ipmi-exporter-allow-privileged-rolebinding.yaml
+- ipmi-exporter-allow-privileged-role.yaml

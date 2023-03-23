@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ipmi-exporter-allow-auth
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ipmi-exporter-allow-auth
+subjects:
+- kind: ServiceAccount
+  name: ipmi-exporter
+  namespace: default
